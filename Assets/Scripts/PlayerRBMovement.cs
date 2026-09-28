@@ -10,6 +10,10 @@ public class PlayerRBMovement : MonoBehaviour
     public float moveSpeed;
     public float jumpForce;
     public float rotationSpeed;
+    public Transform cam;
+
+    private Vector3 horizontalMove;
+    private Vector3 verticalMove;
 
     [Header("GroundDetection")]
     [SerializeField] private Transform groundCheck;
@@ -19,8 +23,13 @@ public class PlayerRBMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        horizontalMove = Input.GetAxis("Horizontal") * cam.transform.right;
+        verticalMove = Input.GetAxis("Vertical") * new Vector3(cam.transform.forward.x, 0, cam.transform.forward.z);
+
+        InputKey = horizontalMove + verticalMove;
+
         // InputKey is set by player input using unity's unput manager
-        InputKey = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        //InputKey = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundRadius, ground);
         //Debug.Log("isGrounded: " + isGrounded);
